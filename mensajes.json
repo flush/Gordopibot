@@ -1,0 +1,23 @@
+{
+    "saludo": "Hola {nombreUsuario}. ¿Que quieres hacer hoy?",
+    "fecha_abrir_local": "¿Cuando vas a ir al local",
+    "adios": "¡¡Hasta luego!!",
+    "tipo_socio":"Veo que eres un Socio. Así me gusta. ¿Eres socio de pago o socio junior",
+    "darse_de_alta":"Parece que no estás dado de alta. Eso no puede ser, así que te voy a dar de alta",
+    "elige_fecha_apertura": "¿Que día vas a abrir?",
+    "elige_hora_apertura": "¿A que hora?. No te preocupes, después podrás elegir si a en punto, a y media etc..",
+    "elige_minutos_apertura": "Un poco más de precisión, por favor...",
+    "elige_duracion_apertura": "¿Cuanto tiempo lo vas a tener abierto?",
+    "confirmar_fecha_apertura": "¿ Confirmas que vas a abrir el local el {diaElegido} hasta las {finApertura}? .Puedes aprovechar para crear también una partida.",
+    "apertura_creada": " Se ha guardad correctamente la apertura del local  el {inicioApertura} hasta las {finApertura}? . ¡A ver cuantas partidas se juegan! ¡Chao!",
+    "abrir_local":"Abrir el local",
+    "ir_local":"ir al local",
+    "unirse_partida":"Unirme a una partida",
+    "crear_partida": "Crear una partida",
+    "alta_usuario": "Dame de alta",
+    "cancelar":"Cancelar",
+    "alta_socio_pago":"Socio de pago",
+    "alta_socio_junior":"Socio junior",
+    "confirmar_apertura": "Confirmo la fecha",
+    "confirmar_apertura_partida": "Confirmo la fecha y quiero crear una partida"
+}
