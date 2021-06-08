@@ -5,7 +5,7 @@ from datetime import  timedelta
 import botones
 
 @config.bot.callback_query_handler(lambda call: call.data == "abrir_local")
-def abrir_local(call):
+def abrirLocal(call):
     sesion = config.sesionHandler.getSesion(call.from_user.id)
     sesion.calendarCallBack = confirmarFechaHora
     sesion.minHoraSelector = config.config["minHoraApertura"]
@@ -25,13 +25,15 @@ def confirmarFechaHora(chatId,messageId,userId):
                                  ,reply_markup=markup)
 
 @config.bot.callback_query_handler(lambda call: call.data.startswith("confirmar_apertura"))
-def guardar_apertura(call):
+def guardarApertura(call):
     sesion  = config.sesionHandler.getSesion(call.from_user.id)
     inicioApertura =  sesion.diaElegido
     finApertura = sesion.diaElegido +timedelta(hours=sesion.duracionElegida)
-    config.aperturasDB.insertarApertura(call.from_user.id,inicioApertura,finApertura)
+    config.aperturaDB.insertarApertura(call.from_user.id,inicioApertura,finApertura)
     inicioAperturaStr = sesion.diaElegido.strftime("%A %d de %B a las %H:%M")
     finAperturaStr = (sesion.diaElegido +timedelta(hours=sesion.duracionElegida)).strftime("%H:%M")
+    sesion.diaElegido = None
+    sesion.finApertura = None
     if call.data == "confirmar_apertura":
         config.bot.edit_message_text(message_id=call.message.id, chat_id=call.message.chat.id,
                                      text=config.mensajes["apertura_creada"].format(inicioApertura=inicioAperturaStr,

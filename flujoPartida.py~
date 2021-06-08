@@ -1,0 +1,11 @@
+import config
+import calendario
+from telebot import types
+from datetime import  timedelta
+import botones
+
+@config.bot.callback_query_handler(lambda call: call.data == "crear_partida")
+def abrir_local(call):
+    sesion = config.sesionHandler.getSesion(call.from_user.id)
+    calendario.mostrarSelectorDia(call.message.chat.id,call.message.id)
+

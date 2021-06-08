@@ -19,5 +19,9 @@
     "alta_socio_pago":"Socio de pago",
     "alta_socio_junior":"Socio junior",
     "confirmar_apertura": "Confirmo la fecha",
-    "confirmar_apertura_partida": "Confirmo la fecha y quiero crear una partida"
+    "confirmar_apertura_partida": "Confirmo la fecha y quiero crear una partida",
+    "elegir_sesion" : "¿Para que día de los que se van a abrir el local quieres crear la partida?",
+    "sin_sesiones_abiertas" : "No hay sesiones abiertas. Tendrás que espera a que un socio abra el local",
+    "buscar_juegos": "Pulsa Ok y escribe el nombre del juego para la partida"
+
 }

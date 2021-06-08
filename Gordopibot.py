@@ -5,6 +5,9 @@ import botones
 import flujoAltaUsuario
 import flujoApertura
 import flujoComun
+import flujoPartida
+from gruposHelper import *
+
 #Start handler
 @config.bot.message_handler(commands=['jugar'])
 def jugar(message):

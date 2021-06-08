@@ -25,7 +25,6 @@ def alta_usuario(call):
                                 reply_markup=botones.getTeclado("alta_socio_pago","alta_socio_junior","cancelar"))
 
 def getNombreUsuario(fromUser):
-    print(fromUser)
     nombre = fromUser.username;
 
     if nombre is None:
