@@ -44,7 +44,8 @@ CREATE TABLE usuarios_aperturas(
 
 CREATE TABLE partidas (
 	id SERIAL,
-	nombre varchar(100),
+	fecha DATETIME,
+	nombreJuego varchar(100),
 	idJuego INTEGER UNSIGNED,
 	idApertura BIGINT UNSIGNED,
 	idCreador INTEGER UNSIGNED,

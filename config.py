@@ -7,7 +7,9 @@ from pathlib import Path
 from os import path, remove
 from usuariosBO import UsuarioDB
 from aperturasBO import AperturasDB
+from partidasBO import PartidasDB
 from sesiones import SesionHandler
+import traceback
 import locale
 
 global sesiones
@@ -18,6 +20,7 @@ global sesionHandler
 global pool
 global usuarioDB
 global aperturaDB
+import functools
 
 
 #for lang in locale.locale_alias.values():
@@ -41,6 +44,25 @@ dbconfig = config['database']
 sesionHandler = SesionHandler(config['sesionTimeout'])
 pool = mariadb.ConnectionPool(**dbconfig)
 usuarioDB = UsuarioDB(pool)
-aperturaDB = AperturasDB(pool)
+aperturaDB = AperturasDB(pool,config["aforo"])
+partidasDB = PartidasDB(pool)
 
+def requiere_sesion(func):
+
+    functools.wraps(func)
+    def wrapper(*args,**kwargs):
+        value = None
+        sesion =  sesionHandler.getSesion(args[0].from_user.id)
+        if sesion is None:
+            if hasattr(args[0],"inline_message_id") and  args[0].inline_message_id is not None:
+                bot.edit_message_text(inline_message_id=args[0].inline_message_id, text=mensajes["usuario_sin_sesion"])
+            elif hasattr(args[0],"query") and args[0].query is not None:
+
+                bot.answer_inline_query(args[0].id,[],cache_time=0,switch_pm_text="Se te ha ido la sesión. Pulsa aquí para empezar de nuevo.")
+            else:
+                bot.edit_message_text(message_id=args[0].message.id, chat_id=args[0].message.chat.id,text=mensajes["usuario_sin_sesion"])
+        else :
+            value  =func(*args,**kwargs)
+        return value
+    return wrapper
 

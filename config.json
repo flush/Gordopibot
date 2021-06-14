@@ -22,18 +22,16 @@
 	"user":"gordopibot",
 	"password":"gordopibot",
 	"pool_name":"gordopibot_pool",
-	"pool_size":5
+	"pool_size":10
     },
     "sesionTimeout":10,
-    "idGrupoSocios":-582318452,
-    "idGrupoJugones": -5823184521,
+    "idGrupoSocios":-1001394268716,
+    "idGrupoJugones":-1001435263688,
     "maxDiasFuturoReserva":7,
     "minHoraApertura":8,
     "maxHoraApertura":23,
     "minDuracion":1,
-    "maxDuracion":6
-    
-
-
+    "maxDuracion":6,
+    "aforo":10
 
 }

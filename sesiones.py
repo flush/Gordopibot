@@ -1,4 +1,5 @@
 import mariadb
+import functools
 from datetime import datetime, timedelta
 class SesionHandler():
     def __init__(self,sesionTimeout):
@@ -28,6 +29,7 @@ class SesionHandler():
         self.borrarSesionesViejas();
         for sesion in self.sesiones:
             if sesion.usuario.id == id:
+                sesion.fechaInicio = datetime.now()
                 return sesion
         
 class Sesion():

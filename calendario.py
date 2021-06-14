@@ -18,7 +18,13 @@ def mostrarSelectorHora(chatId,messageId,userId):
     markup  = types.InlineKeyboardMarkup(row_width=4)
     sesion  = config.sesionHandler.getSesion(userId)
     filaBotones = []
-    for x in range(sesion.minHoraSelector,sesion.maxHoraSelector):
+    minHora = sesion.minHoraSelector
+    maxHora = sesion.maxHoraSelector
+    #Si estamos elegiendo la hora de una partida y la hora de cierre del local no es a en punto
+    # dejamos elegir la última hora
+    if sesion.maxMinutoSelector is  not None  and  sesion.maxMinutoSelector > 0:
+        maxHora = maxHora +1 
+    for x in range(minHora,maxHora):
         filaBotones.append(types.InlineKeyboardButton(str(x)+":00",
                                               callback_data="horaelegida_"+str(x)))
     markup.add(*filaBotones)
@@ -27,12 +33,16 @@ def mostrarSelectorHora(chatId,messageId,userId):
 def mostrarSelectorMinutos(chatId,messageId,userId,hora):
     markup  = types.InlineKeyboardMarkup(row_width=4)
     sesion  = config.sesionHandler.getSesion(userId)
-    filaBotones = [types.InlineKeyboardButton(str(hora)+":00",callback_data="minutoelegido_0"),
-                   types.InlineKeyboardButton(str(hora)+":15",callback_data="minutoelegido_15"),
-                   types.InlineKeyboardButton(str(hora)+":30",callback_data="minutoelegido_30"),
-                   types.InlineKeyboardButton(str(hora)+":45",callback_data="minutoelegido_45"),
-    ]
-
+    horaMin = 0
+    horaMax = 10000
+    filaBotones = []
+    if sesion.minMinutoSelector:
+            horaMin = sesion.minHoraSelector*100+sesion.minMinutoSelector
+            horaMax = sesion.maxHoraSelector*100+sesion.maxMinutoSelector
+    for x in range(0,46,15):
+        horaNum = hora*100+x;
+        if horaMin <= horaNum <horaMax:
+            filaBotones.append(types.InlineKeyboardButton(str(hora)+":"+f"{x:02}",callback_data="minutoelegido_"+str(x)))
     markup.add(*filaBotones)
     config.bot.edit_message_text(config.mensajes["elige_minutos_apertura"],chatId,messageId,reply_markup=markup)
 
@@ -62,6 +72,8 @@ def horaElegida(call):
 
   hora_elegida = int(call.data.split("_")[1])
   sesion  = config.sesionHandler.getSesion(call.from_user.id)
+  if hora_elegida==24:
+      hora_elegida = 0
   sesion.diaElegido = sesion.diaElegido.replace(hour=hora_elegida)
   mostrarSelectorMinutos(call.message.chat.id,call.message.id,call.from_user.id,hora_elegida)  
 
@@ -70,7 +82,10 @@ def minutoElegido(call):
   minuto_elegido = int(call.data.split("_")[1])
   sesion  = config.sesionHandler.getSesion(call.from_user.id)
   sesion.diaElegido = sesion.diaElegido.replace(minute=minuto_elegido)
-  mostrarSelectorDuracion(call.message.chat.id, call.message.id,call.from_user.id)
+  if sesion.elegirDuracion == True:
+      mostrarSelectorDuracion(call.message.chat.id, call.message.id,call.from_user.id)
+  else:
+      sesion.calendarCallBack(call.message.chat.id, call.message.id,call.from_user.id)
 
 
 @config.bot.callback_query_handler(lambda call: call.data.startswith("duracionelegida"))    
