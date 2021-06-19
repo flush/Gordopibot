@@ -1,6 +1,7 @@
 import config
 import traceback
 
+
 class UsuarioDB():
     def __init__(self, pool):
 
@@ -8,6 +9,7 @@ class UsuarioDB():
 
     def insertarUsuario(self, id, nombre, categoria):
         con = self.pool.get_connection()
+        cur = None
         try:
             cur = con.cursor()
             sql = "INSERT INTO usuarios values (?,?,?);"
@@ -16,12 +18,14 @@ class UsuarioDB():
         except:
             traceback.print_exc()
         finally:
+            cur.close()
             con.close()
 
         return Usuario(id, nombre, categoria)
 
     def getUsuario(self, id):
         con = self.pool.get_connection()
+        cur = None
         try:
             cur = con.cursor()
             sql = "SELECT * FROM usuarios WHERE id = %s"
@@ -36,6 +40,7 @@ class UsuarioDB():
         except:
             traceback.print_exc()
         finally:
+            cur.close()
             con.close()
        
 class Usuario():

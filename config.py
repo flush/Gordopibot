@@ -11,6 +11,7 @@ from partidasBO import PartidasDB
 from sesiones import SesionHandler
 import traceback
 import locale
+from customPool import CustomPool
 
 global sesiones
 global config
@@ -42,7 +43,8 @@ bot = telebot.TeleBot(config["botToken"],parse_mode="HTML")
 #creación del pool de conexión
 dbconfig = config['database']
 sesionHandler = SesionHandler(config['sesionTimeout'])
-pool = mariadb.ConnectionPool(**dbconfig)
+#pool = mariadb.ConnectionPool(**dbconfig)
+pool = CustomPool(dbconfig)
 usuarioDB = UsuarioDB(pool)
 aperturaDB = AperturasDB(pool,config["aforo"])
 partidasDB = PartidasDB(pool)

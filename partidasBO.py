@@ -12,6 +12,7 @@ class PartidasDB():
 
     def insertarPartida(self, partida):
         con = self.pool.get_connection()
+        cur = None
         try:
             cur = con.cursor()
             sql = "INSERT INTO partidas (fecha,nombreJuego,idJuego,idApertura,idCreador,plazas) values (?,?,?,?,?,?);"
@@ -23,12 +24,14 @@ class PartidasDB():
             traceback.print_exc()
             con.rollback()
         finally:
+            cur.close()
             con.close()
         return partida
     
 
     def apuntarAPartida(self,idUsuario, idPartida):
         con = self.pool.get_connection()
+        cur = None
         try:
             resultado = None
             partida = self.getPartida(idPartida)
@@ -55,10 +58,12 @@ class PartidasDB():
             traceback.print_exc()
             con.rollback()
         finally:
+            cur.close()
             con.close()
         return resultado
     def getPartidas(self):
         con = self.pool.get_connection()
+        cur = None
         partidas = []
         try:
             cur = con.cursor()
@@ -70,11 +75,13 @@ class PartidasDB():
         except:
             traceback.print_exc()
         finally:
+            cur.close()
             con.close()            
         return partidas
 
     def getPartida(self,id):
         con = self.pool.get_connection()
+        cur = None
         fila = None
         try:
             cur = con.cursor()
@@ -85,12 +92,14 @@ class PartidasDB():
         except:
             traceback.print_exc()
         finally:
+            cur.close()
             con.close()
         return Partida(fila[0], fila[1], fila[2],fila[3],fila[4],fila[5],fila[6])
 
     def getUsuariosApuntados(self,idPartida):
         con = self.pool.get_connection()
         usuarios=[]
+        cur = None
         try:
             cur = con.cursor()
             sql = "select usu.* from usuarios usu, usuarios_partidas usu_partidas where usu_partidas.idPartida=? and usu_partidas.idUsuario=usu.id"
@@ -101,6 +110,7 @@ class PartidasDB():
         except:
             traceback.print_exc()
         finally:
+            cur.close()
             con.close()            
         return usuarios
 
