@@ -1,0 +1,9 @@
+import mariadb
+class CustomPool:
+    def __init__(self, dbconfig):
+        self.config = config
+
+    def get_connection(self):
+            return mariadb.connection(**self.config)
+
+

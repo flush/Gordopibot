@@ -11,6 +11,7 @@ class AperturasDB():
 
     def insertarApertura(self, idUsuario, fechaApertura, fechaCierre):
         con = self.pool.get_connection()
+        cur = None
         try:
             cur = con.cursor()
             sql = "INSERT INTO aperturas_local (fechaApertura,fechaCierre) values (?,?);"
@@ -24,11 +25,13 @@ class AperturasDB():
             traceback.print_exc()
             return None
         finally:
+            cur.close()
             con.close()
 
 
     def getAperturas(self):
         con = self.pool.get_connection()
+        cur = None
         aperturas = []        
         try:
             cur = con.cursor()
@@ -42,12 +45,14 @@ class AperturasDB():
         except:
             traceback.print_exc()
         finally:
+            cur.close()
             con.close()
         return aperturas
 
 
     def getApertura(self,id):
         con = self.pool.get_connection()
+        cur = None
         try:
             cur = con.cursor()
             sql = "select id,fechaApertura,fechaCierre from aperturas_local where id = ?"
@@ -58,11 +63,13 @@ class AperturasDB():
             traceback.print_exc()
             return None
         finally:
+            cur.close()
             con.close()
 
 
     def apuntarASesion(self,idUsuario, idApertura):
         con = self.pool.get_connection()
+        cur = None
 
         try:
             cur = con.cursor()
@@ -84,6 +91,7 @@ class AperturasDB():
         except:
             traceback.print_exc()
         finally:
+            cur.close()
             con.close()
         return  resultado
 
@@ -94,6 +102,7 @@ class AperturasDB():
 
     def getUsuariosApuntados(self,idApertura):
         con = self.pool.get_connection()
+        cur = None
         usuarios = []
         try:
             cur = con.cursor()
@@ -105,6 +114,7 @@ class AperturasDB():
         except:
             traceback.print_exc()
         finally:
+            cur.close()
             con.close()
         return usuarios
     def estaUsuarioApuntado(self,idApertura,idUsuario):
