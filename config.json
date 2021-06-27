@@ -1,28 +1,19 @@
 {
 
-    "botToken": "1835691730:AAEhPOZCRgRj-qcnetHINstWtLCeUWjv568",
+    "botToken": "1851863624:AAE1B9V9PTm7mhLjJfTDOiuloN0CWUDYxqY",
 
     "connectionType": "polling",
+    "webHookUrl": "https://gordopibot.loca.lt",
 
     "webhookOptions":{
-        "webhookHost": null,
-        
-        "webhookPort": null,
-        
-        "webhookListen": "0.0.0.0",
-        
-        "sslCertificate": null,
-        
-        "sslPrivateKey": null
+	"webHookUrl": "https://gordopibot.loca.lt"
     },
     "database":{
 	"host": "localhost",
 	"port": 3306,
-	"database":"gordopibot_db",
+	"database":"gordopibot_develop",
 	"user":"gordopibot",
-	"password":"gordopibot",
-	"pool_name":"gordopibot_pool",
-	"pool_size":10
+	"password":"gordopibot"
     },
     "sesionTimeout":10,
     "idGrupoSocios":-1001394268716,
@@ -35,3 +26,4 @@
     "aforo":10
 
 }
+

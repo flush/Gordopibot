@@ -1,5 +1,9 @@
 from telebot import types
-
+from flask import Flask, request
+import Gordopibot as Gordopibot
+import config as config
+import telebot
+import sys
 import config
 import botones
 import flujoAltaUsuario
@@ -7,6 +11,20 @@ import flujoApertura
 import flujoComun
 import flujoPartida
 from gruposHelper import *
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return 'TelegramBots listening'
+
+@app.route('/Gordopibot', methods=['POST'])
+def getMessage():
+    print("request recieved", file=sys.stderr)
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
+    config.bot.process_new_updates([update])
+    return "!", 200
 
 #Start handler
 
@@ -40,9 +58,10 @@ def adios (call):
         config.bot.send_message(call.from_user.id, text=config.mensajes["adios"], reply_markup=markup)
 
 
-while True:
-    try:
-        config.bot.polling(none_stop=True)
-    except KeyboardInterrupt:
-        print("Interrumpiendo Keyboard")
-        sys.exit();
+token = config.config["botToken"]
+#print("Para Cambiar el webhook, ejecuta\n https://api.telegram.org/bot"+token+"/setWebhook?url="+config.config["webHookUrl"]+"/Gordopibot")
+
+
+if __name__ == "__main__":
+    app.run()#ssl_context='adhoc')
+
