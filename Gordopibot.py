@@ -1,14 +1,41 @@
 from telebot import types
-
+import sys
+from flask import Flask, request
 import config
 import botones
 import flujoAltaUsuario
 import flujoApertura
 import flujoComun
 import flujoPartida
+import random
+import telebot
 from gruposHelper import *
 
 #Start handler
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return 'TelegramBots listening'
+
+
+
+
+@app.route('/Gordopibot', methods=['POST'])
+def getMessage():
+    print("request recieved", file=sys.stderr)
+    try:
+        json_string = request.get_data().decode('utf-8')
+        print("peticion recibida "+json_string,file=sys.stderr)
+        update = telebot.types.Update.de_json(json_string)
+        config.bot.process_new_updates([update])
+    except:
+        print(error,file=sys.stderr);
+        print("error procesando la peticion")
+            
+    return "!", 200
+
 
 @config.bot.message_handler(commands=['jugar'])
 def jugar(message):
@@ -40,9 +67,11 @@ def adios (call):
         config.bot.send_message(call.from_user.id, text=config.mensajes["adios"], reply_markup=markup)
 
 
-while True:
-    try:
-        config.bot.polling(none_stop=True)
-    except KeyboardInterrupt:
-        print("Interrumpiendo Keyboard")
-        sys.exit();
+
+
+random.seed()
+if __name__ == "__main__":
+    app.run(host='127.0.0.1',port=8081)
+    
+
+
