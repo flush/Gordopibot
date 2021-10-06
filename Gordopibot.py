@@ -30,6 +30,7 @@ def getMessage():
         print("peticion recibida "+json_string,file=sys.stderr)
         update = telebot.types.Update.de_json(json_string)
         config.bot.process_new_updates([update])
+        print("Respuesta procesada")
     except:
         print(error,file=sys.stderr);
         print("error procesando la peticion")

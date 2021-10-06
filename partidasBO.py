@@ -33,11 +33,11 @@ class PartidasDB():
         con = self.pool.get_connection()
         cur = None
         try:
+
             resultado = None
             partida = self.getPartida(idPartida)
             if config.aperturaDB.getPlazasLibres(partida.idApertura) > 0 or config.aperturaDB.estaUsuarioApuntado(partida.idApertura,idUsuario):
                 if self.getPlazasLibres(idPartida) > 0:
-                    con = self.pool.get_connection()
                     cur = con.cursor()
                     sql = " select * from usuarios_partidas where idUsuario=? and idPartida = ?"
                     cur.execute(sql,(idUsuario,idPartida))
